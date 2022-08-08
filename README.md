@@ -17,3 +17,6 @@ O ejecutando el siguiente comando desde dentro de la carpeta de la app:
 docker build -t rick-and-morty:dev .
 docker run -d -p 3000:3000 rick-and-morty:dev
 ```
+
+### Demo
+Para ver la demo de la app debe ingresar a https://rick-and-morty-seven-mu.vercel.app/
