@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react"
+import Pagination from "./components/Pagination"
+import Content from "./components/Content"
 
 function App() {
+  const [characters, setCharacters] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [page, setPage] = useState(1)
+  const [numPages, setNumPages] = useState(0);
+
+  useEffect(() => {
+    obtenerDatos();
+  }, [page]);
+
+  const obtenerDatos = async () => {
+    await fetch(`https://rickandmortyapi.com/api/character/?page=${page}`)
+          .then(response => response.json())
+          .then(data => {
+            setCharacters(data.results)
+            setLoading(false)
+            setNumPages(data.info.pages)
+          })
+  }
+
+  const selectPage = (page) => {
+    setPage(page)
+  }
+
+  const previousPage = () => {
+    setPage(page-1)
+  }
+
+  const nextPage = () => {
+    setPage(page+1)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container-fluid">
+      <h1 className="text-center display-1 py-4">Rick and Morty</h1>
+      <div className="container">
+        {loading ? 'Cargando...' : <Content characters={characters} />}
+        {loading ? '' : <Pagination numPages={numPages} selectPage={selectPage} previousPage={previousPage} nextPage={nextPage} actualPage={page} />}
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
