@@ -27,11 +27,15 @@ function App() {
   }
 
   const previousPage = () => {
-    setPage(page-1)
+    if(page >= 2) {
+      setPage(page-1)
+    }
   }
 
   const nextPage = () => {
-    setPage(page+1)
+    if(page <= 41) {
+      setPage(page+1)
+    }
   }
 
   return (
